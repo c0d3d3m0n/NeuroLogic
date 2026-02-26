@@ -4,6 +4,26 @@
 const API_BASE = "https://neurologic.onrender.com";
 
 // ===============================
+// Sample Puzzle
+// ===============================
+const SAMPLE_PUZZLE = {
+    puzzle:
+`Alice, Bob, Carol, David, Emma, and Frank sit in 6 seats.
+1. Alice is not at either end.
+2. Bob sits immediately to the left of Carol.
+3. David sits somewhere to the right of Alice.
+4. Emma is not next to Bob.
+5. Frank is not at seat 1 or seat 6.
+6. Carol is not next to Frank.`
+};
+
+function loadSamplePuzzle() {
+    const textarea = document.getElementById("puzzleInput");
+    textarea.value = SAMPLE_PUZZLE.puzzle;
+    textarea.focus();
+}
+
+// ===============================
 // Main Solve Function
 // ===============================
 async function solvePuzzle() {
@@ -19,7 +39,6 @@ async function solvePuzzle() {
 
     const requestBody = { puzzle };
 
-    // UI Reset
     runBtn.disabled = true;
     loading.classList.remove("hidden");
 
@@ -30,9 +49,7 @@ async function solvePuzzle() {
     document.getElementById("seatVisualization").innerHTML = "";
 
     try {
-        // ===============================
-        // 🧠 Baseline (LLM only)
-        // ===============================
+        // 🧠 Baseline LLM
         loadingText.innerText = "LLM is thinking intuitively...";
 
         const baselineRes = await fetch(`${API_BASE}/baseline`, {
@@ -40,10 +57,6 @@ async function solvePuzzle() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestBody)
         });
-
-        if (!baselineRes.ok) {
-            throw new Error("Baseline endpoint failed.");
-        }
 
         const baselineData = await baselineRes.json();
 
@@ -56,7 +69,7 @@ async function solvePuzzle() {
         } else {
             document.getElementById("baselineValidation").innerHTML =
                 `<div class='invalid'>
-                    ❌ Intuition failed: 
+                    ❌ Intuition failed:
                     ${baselineData.validation?.violations?.length || 0} violations detected.
                     <br><small>
                     ${(baselineData.validation?.violations || []).join("<br>")}
@@ -64,9 +77,7 @@ async function solvePuzzle() {
                 </div>`;
         }
 
-        // ===============================
-        // ⚙ Neuro-Symbolic
-        // ===============================
+        // ⚙ Neuro-Symbolic Solver
         loadingText.innerText = "Formalizing logic & solving...";
 
         const neuroRes = await fetch(`${API_BASE}/neurosymbolic`, {
@@ -74,10 +85,6 @@ async function solvePuzzle() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestBody)
         });
-
-        if (!neuroRes.ok) {
-            throw new Error("Neuro-symbolic endpoint failed.");
-        }
 
         const neuroData = await neuroRes.json();
 
@@ -89,9 +96,6 @@ async function solvePuzzle() {
                 Total Valid Solutions Found: ${neuroData.total_solutions || 0}
             </div>`;
 
-        // ===============================
-        // 🎨 Visualize First Solution
-        // ===============================
         if (neuroData.solutions && neuroData.solutions.length > 0) {
             visualizeSeats(neuroData.solutions[0]);
         } else {
@@ -100,11 +104,10 @@ async function solvePuzzle() {
         }
 
     } catch (error) {
-        console.error("Error:", error);
+        console.error(error);
         alert(
-            "Backend connection failed.\n\n" +
-            "If this is the first request, Render may be waking up.\n" +
-            "Wait 20–30 seconds and try again."
+            "Backend connection failed.\n" +
+            "If this is the first request, wait 20–30 seconds and try again."
         );
     } finally {
         loading.classList.add("hidden");
