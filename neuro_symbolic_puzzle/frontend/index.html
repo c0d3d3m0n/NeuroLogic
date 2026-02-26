@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neuro-Symbolic Reasoning Arena</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="bg-glow"></div>
-    
+
     <header>
         <div class="header-content">
             <h1>Neuro-Symbolic <span>Reasoning Arena</span></h1>
@@ -23,7 +25,14 @@
         <section class="hero">
             <div class="info-card">
                 <h2>About the Project</h2>
-                <p>This arena benchmarks standard Large Language Models (LLMs) against a <strong>Neuro-Symbolic</strong> approach. While LLMs excel at language, they often struggle with tight logical constraints. Our Neuro-Symbolic solver uses an LLM to parse natural language into formal logic, which is then solved with mathematical precision by a symbolic engine.</p>
+                <p>
+                    This arena benchmarks standard Large Language Models (LLMs) against a
+                    <strong>Neuro-Symbolic</strong> approach. While LLMs excel at language,
+                    they often struggle with tight logical constraints. Our Neuro-Symbolic solver
+                    uses an LLM to parse natural language into formal logic, which is then solved
+                    with mathematical precision by a symbolic engine.
+                </p>
+
                 <div class="features">
                     <div class="feature">
                         <span class="icon">🧠</span>
@@ -46,8 +55,17 @@
         <section class="input-section">
             <div class="glass-panel">
                 <label for="puzzleInput">Describe your seating puzzle:</label>
-                <textarea id="puzzleInput" placeholder="Example: Alice sits next to Bob. Charlie is not at Seat 1. David must be at Seat 3..."></textarea>
+
+                <textarea
+                    id="puzzleInput"
+                    placeholder="Example: Alice sits next to Bob. Charlie is not at Seat 1..."
+                ></textarea>
+
                 <div class="actions">
+                    <button id="sampleBtn" onclick="loadSamplePuzzle()">
+                        Try Sample Puzzle
+                    </button>
+
                     <button id="runBtn" onclick="solvePuzzle()">
                         <span class="btn-text">Run Comparison</span>
                         <div class="btn-glow"></div>
