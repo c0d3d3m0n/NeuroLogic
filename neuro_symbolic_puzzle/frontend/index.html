@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuro-Symbolic Reasoning Arena</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-glow"></div>
+    
+    <header>
+        <div class="header-content">
+            <h1>Neuro-Symbolic <span>Reasoning Arena</span></h1>
+            <p class="subtitle">Witness the synergy between LLM intuition and symbolic logic</p>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="info-card">
+                <h2>About the Project</h2>
+                <p>This arena benchmarks standard Large Language Models (LLMs) against a <strong>Neuro-Symbolic</strong> approach. While LLMs excel at language, they often struggle with tight logical constraints. Our Neuro-Symbolic solver uses an LLM to parse natural language into formal logic, which is then solved with mathematical precision by a symbolic engine.</p>
+                <div class="features">
+                    <div class="feature">
+                        <span class="icon">🧠</span>
+                        <div>
+                            <strong>Intuitive Parsing</strong>
+                            <p>LLM understands natural language nuances.</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <span class="icon">⚙️</span>
+                        <div>
+                            <strong>Symbolic Solving</strong>
+                            <p>Formal logic ensures 100% constraint satisfaction.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="input-section">
+            <div class="glass-panel">
+                <label for="puzzleInput">Describe your seating puzzle:</label>
+                <textarea id="puzzleInput" placeholder="Example: Alice sits next to Bob. Charlie is not at Seat 1. David must be at Seat 3..."></textarea>
+                <div class="actions">
+                    <button id="runBtn" onclick="solvePuzzle()">
+                        <span class="btn-text">Run Comparison</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <div id="loading" class="hidden">
+            <div class="spinner-container">
+                <div class="spinner"></div>
+                <p id="loadingText">Analyzing Puzzle...</p>
+            </div>
+        </div>
+
+        <section class="results-container">
+            <div class="panel baseline">
+                <div class="panel-header">
+                    <span class="badge">Baseline</span>
+                    <h2>Standard LLM</h2>
+                </div>
+                <div class="panel-body">
+                    <pre id="baselineOutput" data-placeholder="Awaiting input..."></pre>
+                    <div id="baselineValidation"></div>
+                </div>
+            </div>
+
+            <div class="panel neuro">
+                <div class="panel-header">
+                    <span class="badge">Neuro-Symbolic</span>
+                    <h2>Logic Engine</h2>
+                </div>
+                <div class="panel-body">
+                    <div id="solutionCount"></div>
+                    <pre id="neuroOutput" data-placeholder="Awaiting input..."></pre>
+                    <div id="seatVisualization"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Neuro-Symbolic Research Lab</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
