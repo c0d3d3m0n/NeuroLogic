@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neuro-Symbolic Reasoning Arena</title>
-
+    <meta name="description"
+        content="A cutting-edge benchmark platform comparing LLM intuition against Neuro-Symbolic logic for complex constraint satisfaction puzzles.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
-
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;600;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="bg-glow"></div>
 
@@ -25,14 +29,10 @@
         <section class="hero">
             <div class="info-card">
                 <h2>About the Project</h2>
-                <p>
-                    This arena benchmarks standard Large Language Models (LLMs) against a
-                    <strong>Neuro-Symbolic</strong> approach. While LLMs excel at language,
-                    they often struggle with tight logical constraints. Our Neuro-Symbolic solver
-                    uses an LLM to parse natural language into formal logic, which is then solved
-                    with mathematical precision by a symbolic engine.
-                </p>
-
+                <p>This arena benchmarks standard Large Language Models (LLMs) against a <strong>Neuro-Symbolic</strong>
+                    approach. While LLMs excel at language, they often struggle with tight logical constraints. Our
+                    Neuro-Symbolic solver uses an LLM to parse natural language into formal logic, which is then solved
+                    with mathematical precision by a symbolic engine.</p>
                 <div class="features">
                     <div class="feature">
                         <span class="icon">🧠</span>
@@ -55,17 +55,11 @@
         <section class="input-section">
             <div class="glass-panel">
                 <label for="puzzleInput">Describe your seating puzzle:</label>
-
-                <textarea
-                    id="puzzleInput"
-                    placeholder="Example: Alice sits next to Bob. Charlie is not at Seat 1..."
-                ></textarea>
-
+                <textarea id="puzzleInput"
+                    placeholder="Example: Alice sits next to Bob. Charlie is not at Seat 1. David must be at Seat 3..."></textarea>
                 <div class="actions">
-                    <button id="sampleBtn" onclick="loadSamplePuzzle()">
-                        Try Sample Puzzle
-                    </button>
-
+                    <button class="secondary-btn" onclick="clearInput()">Clear</button>
+                    <button class="secondary-btn" onclick="loadExample()">Try Example</button>
                     <button id="runBtn" onclick="solvePuzzle()">
                         <span class="btn-text">Run Comparison</span>
                         <div class="btn-glow"></div>
@@ -100,8 +94,9 @@
                 </div>
                 <div class="panel-body">
                     <div id="solutionCount"></div>
-                    <pre id="neuroOutput" data-placeholder="Awaiting input..."></pre>
                     <div id="seatVisualization"></div>
+                    <div class="code-header">Structured Logic (Intermediate Representation)</div>
+                    <pre id="neuroOutput" data-placeholder="Awaiting input..."></pre>
                 </div>
             </div>
         </section>
@@ -113,4 +108,5 @@
 
     <script src="app.js"></script>
 </body>
+
 </html>
