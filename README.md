@@ -69,7 +69,7 @@ graph TD
 - **AI/Logic**: 
     - **Google Gemini API**: For natural language formalization.
     - **Z3-Solver**: For deterministic constraint satisfaction.
-- **Deployment**: Procfile included for easy Heroku/Dokku deployment.
+- **Deployment**: Procfile included for easy Render deployment and Vercel for Frontend.
 
 ---
 
