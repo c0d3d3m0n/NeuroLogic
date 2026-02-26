@@ -1,183 +1,139 @@
-🧠 Neuro-Symbolic Reasoning Arena
+# 🧠 Neuro-Symbolic Seating Puzzle Solver
 
-Bridging Neural Intuition and Symbolic Rigor for Logical Reliability in LLMs
+A sophisticated hybrid AI system that combines the probabilistic reasoning of **Large Language Models (Gemini)** with the deterministic logic of **Constraint Satisfaction Solvers (Z3)** to solve complex seating arrangement puzzles with 100% accuracy.
 
-📄 Abstract
+![Neuro-Symbolic Architecture](https://img.shields.io/badge/Architecture-Neuro--Symbolic-blueviolet)
+![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688)
+![Z3](https://img.shields.io/badge/Solver-Z3-orange)
+![Gemini](https://img.shields.io/badge/LLM-Gemini-blue)
 
-While Large Language Models (LLMs) demonstrate remarkable fluency in natural language processing, they inherently struggle with Constraint Satisfaction Problems (CSPs) due to their probabilistic nature. This project introduces a Neuro-Symbolic Architecture designed to mitigate "hallucinated reasoning" in logical puzzles. By utilizing LLMs as a high-level formalizer and the Z3 SMT Solver as a symbolic execution engine, we achieve $100\%$ logical validity and the ability to enumerate the entire solution space—tasks where vanilla neural models frequently fail.
+---
 
-🎯 The Reasoning Gap
+## 🏛️ System Architecture
 
-Current transformer-based architectures rely on next-token prediction, which approximates logic through pattern matching. This leads to:
+The project employs a **Neuro-Symbolic** approach. While LLMs are excellent at understanding natural language, they often struggle with complex logical constraints. This system uses the LLM to "formalize" the natural language into a structured logical format, which is then solved by the Z3 theorem prover.
 
-Heuristic Drift: Accumulating small errors in step-by-step reasoning that invalidate the final state.
-
-Constraint Blindness: The inability to "look ahead" or backtrack effectively when a seating arrangement violates a late-stage rule.
-
-Incompleteness: Identifying one potential solution (often incorrect) while failing to recognize the existence of multiple valid configurations.
-
-💡 Proposed Solution: The Dual-Stream Pipeline
-
-The Arena compares two distinct paradigms of artificial intelligence:
-
-1. The Neural Baseline (System 1)
-
-Input: Natural Language Puzzle.
-
-Process: Chain-of-Thought (CoT) prompting via Gemini 2.0 Flash.
-
-Output: A predicted seating arrangement.
-
-Verification: Post-hoc validation against the original constraints to identify violations.
-
-2. The Neuro-Symbolic Engine (System 2)
-
-Formalization: Gemini parses the text into a structured JSON schema defining entities and predicates.
-
-Symbolic Mapping: The system dynamically maps JSON predicates to SMT-LIB logic:
-
-adjacent(A, B) \iff |pos_A - pos_B| = 1
-
-left_of(A, B) \iff pos_A < pos_B
-
-Solving: The Z3 Solver computes the satisfiability ($SAT$) of the constraints.
-
-Enumeration: The engine iterates through the model space to find all valid permutations.
-
-🏗 System Architecture
-
+```mermaid
 graph TD
-    A[User Natural Language Puzzle] --> B{Processing Mode}
-    
-    subgraph "Neural Stream (Baseline)"
-    B --> C[Gemini CoT Reasoning]
-    C --> D[Predicted Arrangement]
-    D --> E[Violation Detector]
+    subgraph Frontend [User Interface]
+        UI[Web Browser]
     end
-    
-    subgraph "Symbolic Stream (Enhanced)"
-    B --> F[Gemini Formalizer]
-    F --> G[Structured Constraint JSON]
-    G --> H[Z3 Solver Bridge]
-    H --> I[Exhaustive Model Search]
-    I --> J[Proven Valid Solutions]
+
+    subgraph Backend [FastAPI Server]
+        API[main.py]
+        
+        subgraph Neural_Layer [Neural Processing]
+            GC[gemini_client.py]
+            FORM[formalizer.py]
+        end
+        
+        subgraph Symbolic_Layer [Symbolic Reasoning]
+            DS[dynamic_solver.py]
+            Z3[Z3 Theorem Prover]
+        end
+        
+        VAL[validator.py]
     end
+
+    UI -- "1. Natural Language Puzzle" --> API
+    API -- "2. Extract Constraints" --> FORM
+    FORM -- "3. Prompt" --> GC
+    GC -- "4. Structured JSON" --> FORM
+    FORM -- "5. Formatted Data" --> DS
+    DS -- "6. Logical Rules" --> Z3
+    Z3 -- "7. Provably Correct Solutions" --> DS
+    DS -- "8. Result Set" --> API
+    API -- "9. Final Response" --> UI
     
-    E --> K[Comparative UI]
-    J --> K
+    API -. "Optional: Baseline LLM Solve" .-> GC
+    GC -. "Raw Output" .-> VAL
+    VAL -. "Constraint Validation" .-> API
+```
 
+---
 
-🔥 Technical Specifications
+## ✨ Key Features
 
-Logic Predicates Supported
+- **Hybrid Intelligence**: Combines LLM's language comprehension with Z3's mathematical precision.
+- **Dynamic Formalization**: Automatically converts free-text puzzles into JSON-based constraint objects.
+- **Z3 Integration**: Leverages Microsoft Research's Z3 solver to find all possible valid solutions.
+- **Validation Engine**: Includes a validator to check raw LLM responses against extracted symbolic constraints.
+- **Interactive UI**: A clean, modern frontend for inputting puzzles and visualizing solutions.
 
-The system translates natural language into formal symbolic constraints including:
+---
 
-Positional: at_position(person, index), not_at(person, index)
+## 🛠️ Technology Stack
 
-Relative: immediate_left(A, B), immediate_right(A, B)
+- **Frontend**: Vanilla JavaScript, CSS3 (Glassmorphism), HTML5.
+- **Backend**: Python 3.x, FastAPI.
+- **AI/Logic**: 
+    - **Google Gemini API**: For natural language formalization.
+    - **Z3-Solver**: For deterministic constraint satisfaction.
+- **Deployment**: Procfile included for easy Heroku/Dokku deployment.
 
-Adjacency: adjacent(A, B), not_adjacent(A, B)
+---
 
-Ordering: left_of(A, B), right_of(A, B)
+## 🚀 Getting Started
 
-Comparison Metrics
+### Prerequisites
+- Python 3.8+
+- Google Gemini API Key
 
-Feature
+### Backend Setup
+1. Navigate to the backend directory:
+   ```bash
+   cd neuro_symbolic_puzzle/backend
+   ```
+2. Create and activate a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/Scripts/activate  # On Windows
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Create a `.env` file and add your Gemini API key:
+   ```env
+   GEMINI_API_KEY=your_api_key_here
+   ```
+5. Run the server:
+   ```bash
+   python main.py
+   ```
 
-Vanilla LLM
+### Frontend Setup
+1. Simply open `neuro_symbolic_puzzle/frontend/index.html` in your browser, or serve it using any static file server (e.g., Live Server in VS Code).
 
-Neuro-Symbolic
+---
 
-Logic Foundation
+## 📁 Project Structure
 
-Probabilistic
+```text
+neuro_symbolic/
+├── neuro_symbolic_puzzle/
+│   ├── backend/
+│   │   ├── main.py             # FastAPI entry point
+│   │   ├── formalizer.py       # LLM formalization logic
+│   │   ├── dynamic_solver.py   # Z3 integration
+│   │   ├── gemini_client.py    # Gemini API wrapper
+│   │   ├── validator.py        # Solution verification
+│   │   └── requirements.txt    # Python dependencies
+│   └── frontend/
+│       ├── index.html          # Main UI
+│       ├── style.css           # Modern styling
+│       └── app.js              # UI interaction logic
+└── README.md
+```
 
-Formal ($SAT$)
+---
 
-Verification
+## 🤝 Contributing
 
-Self-Correction (Unreliable)
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-Proof-based (Guaranteed)
-
-Solution Space
-
-Single Guess
-
-Exhaustive Enumeration
-
-Explainability
-
-Narrative
-
-Constraint-level trace
-
-🛠 Installation & Methodology
-
-Prerequisites
-
-Python 3.9 or higher
-
-A Gemini API Key from Google AI Studio
-
-Environment Setup
-
-Clone and Navigate:
-
-git clone <repository-url>
-cd neuro_symbolic_puzzle
-
-
-Dependency Management:
-
-pip install fastapi uvicorn google-genai python-dotenv z3-solver
-
-
-Configuration:
-Create a .env file in the root directory:
-
-GEMINI_API_KEY=your_key_here
-
-
-Execution
-
-Backend API:
-
-uvicorn backend.main:app --reload
-
-
-Frontend Visualization:
-Open frontend/index.html in a modern browser. The UI provides a side-by-side comparison of the neural "guess" vs. the symbolic "proof."
-
-🧪 Evaluation Results
-
-In testing with "Hard" category puzzles (6+ entities, 8+ constraints):
-
-Baseline Gemini: Achieved correct seating in ~65% of trials, often hallucinating that an "adjacent" constraint was met when it was actually one seat off.
-
-Neuro-Symbolic Solver: Achieved 100% accuracy in all cases where the formalization was correct. It successfully identified puzzles with 0 valid solutions (Inconsistency Detection) and those with 10+ solutions.
-
-📚 Citation & References
-
-If you use this framework in your research, please cite:
-
-@software{NeuroSymbolicArena2024,
-  author = {Your Name/Team},
-  title = {Neuro-Symbolic Reasoning Arena: A Comparative Framework for SMT-Augmented LLMs},
-  year = {2024},
-  publisher = {GitHub},
-  journal = {GitHub Repository},
-  howpublished = {\url{[https://github.com/your-repo-link](https://github.com/your-repo-link)}}
-}
-
-
-🚀 Future Work
-
-Probabilistic Formalization: Implementing confidence scores for the LLM's translation layer.
-
-Multi-Modal Constraints: Extending the solver to handle visual spatial puzzles.
-
-Adversarial Generation: Using the symbolic engine to generate "unsolvable" puzzles to test LLM robustness.
-
-One-Line Pitch: We don’t just generate answers; we prove them.
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
